@@ -49,7 +49,7 @@ import android.widget.Toast;
  * 
  */
 
-public class DragActivity extends Activity implements View.OnLongClickListener, View.OnClickListener, DragDropPresenter, View.OnTouchListener {
+public class DragActivity extends BaseActivity implements View.OnLongClickListener, View.OnClickListener, DragDropPresenter, View.OnTouchListener {
 
 	/**
  */
@@ -110,7 +110,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 	 *            int - the resource id of the image to be added
 	 */
 
-	public void addNewImageToScreen(int resourceId) {
+	public void addNewImageToScreen(int resourceId, ItemType itemType) {
 		if (mLastNewCell != null)
 			mLastNewCell.setVisibility(View.GONE);
 
@@ -119,7 +119,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 			FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Gravity.CENTER);
 			ImageCell newView = new ImageCell(this);
 			newView.setImageResource(resourceId);
-			newView.setItemType(ItemType.ITEM_SUN);
+			newView.setItemType(itemType);
 			imageHolder.addView(newView, lp);
 			newView.mEmpty = false;
 			newView.mTargetId = -1;
@@ -142,17 +142,26 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 
 	public void addNewImageToScreen() {
 		int resourceId = R.drawable.sun;
+		ItemType itemType = ItemType.ITEM_SUN;
 
 		int m = mImageCount % 5;
-		if (m == 1)
+		if(m == 0){
+			resourceId = R.drawable.sun;
+			itemType = ItemType.ITEM_SUN;
+		}
+		else if (m == 1){
 			resourceId = R.drawable.cloud;
-		else if (m == 2)
+		itemType = ItemType.ITEM_CLOUD;}
+		else if (m == 2){
 			resourceId = R.drawable.tree;
-		else if (m == 3)
+		itemType = ItemType.ITEM_TREE;}
+		else if (m == 3){
 			resourceId = R.drawable.golf;
-		else if (m == 4)
+		   itemType = ItemType.ITEM_GOLF;}
+		else if (m == 4){
 			resourceId = R.drawable.solar;
-		addNewImageToScreen(resourceId);
+		itemType = ItemType.ITEM_SOLAR;}
+		addNewImageToScreen(resourceId, itemType);
 	}
 
 	/**
@@ -221,6 +230,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		// mTargetSun.mGrid = (GridView) mParentView;
 		mTargetSun.mEmpty = true;
 		mTargetSun.setOnDragListener(mDragController);
+		mTargetSun.setItemType(ItemType.ITEM_SUN);
 		// mTargetSun.setBackgroundResource (R.color.cell_empty);
 
 		// Set up to relay events to the activity.
@@ -247,6 +257,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		mTargetCloud.setOnTouchListener(this);
 		mTargetCloud.setOnClickListener(this);
 		mTargetCloud.setOnLongClickListener(this);
+		mTargetCloud.setItemType(ItemType.ITEM_CLOUD);
 
 		// Target Tree initialization
 
@@ -264,6 +275,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		mTargetTree.setOnTouchListener(this);
 		mTargetTree.setOnClickListener(this);
 		mTargetTree.setOnLongClickListener(this);
+		mTargetTree.setItemType(ItemType.ITEM_TREE);
 
 		// Target Golf Car initialization
 		mTargetGolf = (ImageCell) findViewById(R.id.id_target_golf);
@@ -280,6 +292,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		mTargetGolf.setOnTouchListener(this);
 		mTargetGolf.setOnClickListener(this);
 		mTargetGolf.setOnLongClickListener(this);
+		mTargetGolf.setItemType(ItemType.ITEM_GOLF);
 
 		// Target Solar initialization
 		mTargetSolar = (ImageCell) findViewById(R.id.id_target_solar);
@@ -296,6 +309,9 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		mTargetSolar.setOnTouchListener(this);
 		mTargetSolar.setOnClickListener(this);
 		mTargetSolar.setOnLongClickListener(this);
+		mTargetSolar.setItemType(ItemType.ITEM_SOLAR);
+		
+		addNewImageToScreen();
 
 	}
 
@@ -519,6 +535,11 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 	 */
 
 	public void onDropCompleted(DropTarget target, boolean success) {
+	}
+
+	@Override
+	void setNewDragableImage() {
+		addNewImageToScreen();
 	}
 
 } // end class

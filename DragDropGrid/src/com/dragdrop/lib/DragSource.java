@@ -71,6 +71,7 @@ public void onDragStarted ();
 
 public void onDropCompleted (DropTarget target, boolean success);
 
-public getDrage
+
+
 
 } // end DragSource

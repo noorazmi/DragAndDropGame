@@ -46,6 +46,7 @@ public class ImageCell extends ImageView
     public int mTargetId = -1;
     public GridView mGrid;
     private ItemType mItemType;
+    private BaseActivity mContext;
 
 /**
  */
@@ -53,12 +54,15 @@ public class ImageCell extends ImageView
 
 public ImageCell (Context context) {
 	super (context);
+	this.mContext = (BaseActivity) context;
 }
 public ImageCell (Context context, AttributeSet attrs) {
 	super (context, attrs);
+	this.mContext = (BaseActivity) context;
 }
 public ImageCell (Context context, AttributeSet attrs, int style) {
 	super (context, attrs, style);
+	this.mContext = (BaseActivity) context;
 }
 
 
@@ -66,7 +70,7 @@ public ItemType getItemType() {
 	return mItemType;
 }
 public void setItemType(ItemType itemType) {
-	this.mItemType = mItemType;
+	this.mItemType = itemType;
 }
 
 
@@ -147,12 +151,14 @@ public void onDropCompleted (DropTarget target, boolean success) {
           int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
           setBackgroundResource (bg);
           setImageDrawable (null);
+          //mContext.setNewDragableImage();
        } else {
          // If the cell number is negative, it means we are interacting with a free-standing
          // image cell. There is one of those. It is the place where an image is added when
          // the user clicks "add image".
          // At the conclusion of a drop, clear it.
-         setImageResource (0);
+        setImageResource (0);
+         mContext.setNewDragableImage();
        }
     } else {
       // On the failure case, reset the background color in case it is still set to the hover color.
@@ -183,7 +189,8 @@ public boolean allowDrop (DragSource source) {
 
     // An ImageCell accepts a drop if it is empty and if it is part of a grid.
     // A free-standing ImageCell does not accept drops.
-    return mEmpty  && (mTargetId >= 0);
+    //return mEmpty  && (mTargetId >= 0);
+    return (((ImageCell)source).getItemType() == this.getItemType());
 }
 
 /**
@@ -195,6 +202,9 @@ public boolean allowDrop (DragSource source) {
 public void onDrop (DragSource source) {
     Log.d (DragActivity.LOG_NAME, "ImageCell.onDrop: " + mTargetId + " source: " + source);
         
+    if(((ImageCell)source).getItemType() != this.getItemType()){
+    	return ;
+    }
     // Mark the cell so it is no longer empty.
     mEmpty = false;
     int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
@@ -277,7 +287,6 @@ public boolean performLongClick ()
     if (!mEmpty) return super.performLongClick ();
     return false;
 }
-
 
 
 

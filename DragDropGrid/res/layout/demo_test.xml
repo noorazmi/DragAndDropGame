@@ -60,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="onClickAddImage"
-                android:text="Add image" />
+                android:text="Add image"
+                android:visibility="gone" />
 
             <FrameLayout
                 android:id="@+id/image_source_frame"
