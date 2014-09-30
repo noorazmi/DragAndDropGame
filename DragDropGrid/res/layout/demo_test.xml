@@ -3,6 +3,7 @@
     android:id="@+id/drag_layer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_modified"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -12,10 +13,34 @@
         android:orientation="vertical" >
 
         <com.dragdrop.lib.ImageCell
-            android:id="@+id/target_sun"
+            android:id="@+id/id_target_sun"
             android:layout_width="@dimen/add_image_width"
             android:layout_height="@dimen/add_image_height"
-            android:src="@drawable/sun" />
+            android:src="@drawable/sun_target" />
+
+        <com.dragdrop.lib.ImageCell
+            android:id="@+id/id_target_cloud"
+            android:layout_width="@dimen/add_image_width"
+            android:layout_height="@dimen/add_image_height"
+            android:src="@drawable/cloud_target" />
+
+        <com.dragdrop.lib.ImageCell
+            android:id="@+id/id_target_tree"
+            android:layout_width="@dimen/add_image_width"
+            android:layout_height="@dimen/add_image_height"
+            android:src="@drawable/tree_target" />
+
+        <com.dragdrop.lib.ImageCell
+            android:id="@+id/id_target_golf"
+            android:layout_width="@dimen/add_image_width"
+            android:layout_height="@dimen/add_image_height"
+            android:src="@drawable/golf_target" />
+
+        <com.dragdrop.lib.ImageCell
+            android:id="@+id/id_target_solar"
+            android:layout_width="@dimen/add_image_width"
+            android:layout_height="@dimen/add_image_height"
+            android:src="@drawable/solar_target" />
     </LinearLayout>
 
     <LinearLayout
@@ -25,7 +50,6 @@
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/s"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="center" >
@@ -40,9 +64,8 @@
 
             <FrameLayout
                 android:id="@+id/image_source_frame"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" >
+                android:layout_width="@dimen/add_image_width"
+                android:layout_height="@dimen/add_image_height" >
 
                 <ImageView
                     android:layout_width="@dimen/add_image_width"
@@ -50,14 +73,6 @@
                     android:layout_gravity="center" />
             </FrameLayout>
         </LinearLayout>
-
-        <com.dragdrop.lib.DeleteZone
-            android:id="@+id/delete_zone_view"
-            android:layout_width="@dimen/delete_zone_size"
-            android:layout_height="@dimen/delete_zone_size"
-            android:layout_gravity="center"
-            android:padding="@dimen/delete_zone_padding"
-            android:src="@drawable/delete_zone" />
     </LinearLayout>
 
 </LinearLayout>

@@ -45,7 +45,7 @@ public class ImageCell extends ImageView
     public boolean mEmpty = true;
     public int mTargetId = -1;
     public GridView mGrid;
-    private TargetType mTargetType;
+    private ItemType mItemType;
 
 /**
  */
@@ -62,11 +62,11 @@ public ImageCell (Context context, AttributeSet attrs, int style) {
 }
 
 
-public TargetType getTargetType() {
-	return mTargetType;
+public ItemType getItemType() {
+	return mItemType;
 }
-public void setTargetType(TargetType mTargetType) {
-	this.mTargetType = mTargetType;
+public void setItemType(ItemType itemType) {
+	this.mItemType = mItemType;
 }
 
 

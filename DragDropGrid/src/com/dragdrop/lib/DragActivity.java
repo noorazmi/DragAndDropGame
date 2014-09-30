@@ -61,7 +61,6 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 	private static final int CHANGE_TOUCH_MODE_MENU_ID = Menu.FIRST + 3;
 
 	public static final String LOG_NAME = "DragActivity";
-	private ImageCell mTargetSun ;
 
 	/**
  */
@@ -92,6 +91,13 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 													// toast messages while
 													// debugging.
 
+	// Target Images
+	private ImageCell mTargetSun;
+	private ImageCell mTargetCloud;
+	private ImageCell mTargetTree;
+	private ImageCell mTargetGolf;
+	private ImageCell mTargetSolar;
+
 	/**
  */
 	// Methods
@@ -113,6 +119,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 			FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, Gravity.CENTER);
 			ImageCell newView = new ImageCell(this);
 			newView.setImageResource(resourceId);
+			newView.setItemType(ItemType.ITEM_SUN);
 			imageHolder.addView(newView, lp);
 			newView.mEmpty = false;
 			newView.mTargetId = -1;
@@ -136,13 +143,15 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 	public void addNewImageToScreen() {
 		int resourceId = R.drawable.sun;
 
-		int m = mImageCount % 3;
+		int m = mImageCount % 5;
 		if (m == 1)
 			resourceId = R.drawable.cloud;
 		else if (m == 2)
 			resourceId = R.drawable.tree;
 		else if (m == 3)
 			resourceId = R.drawable.golf;
+		else if (m == 4)
+			resourceId = R.drawable.solar;
 		addNewImageToScreen(resourceId);
 	}
 
@@ -186,41 +195,108 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		// This activity will listen for drag-drop events.
 		// The listener used is a DragController. Set it up.
 		mDragController = new DragController(this);
-		
 
 		// Set up the grid view with an ImageCellAdapter and have it use the
 		// DragController.
-//		GridView gridView = (GridView) findViewById(R.id.image_grid_view);
-//		if (gridView == null)
-//			toast("Unable to find GridView");
-//		else {
-//			gridView.setAdapter(new ImageCellAdapter(this, mDragController));
-//			// gridView.setOnItemClickListener (this);
-//		}
+		// GridView gridView = (GridView) findViewById(R.id.image_grid_view);
+		// if (gridView == null)
+		// toast("Unable to find GridView");
+		// else {
+		// gridView.setAdapter(new ImageCellAdapter(this, mDragController));
+		// // gridView.setOnItemClickListener (this);
+		// }
 		// mGridView = gridView;
 
 		// Always add the delete_zone so there is a place to get rid of views.
 		// Find the delete_zone and add it as a drop target.
 		// That gives the user a place to drag views to get them off the screen.
-//		mDeleteZone = (DeleteZone) findViewById(R.id.delete_zone_view);
-//		if (mDeleteZone != null)
-//			mDeleteZone.setOnDragListener(mDragController);
+		// mDeleteZone = (DeleteZone) findViewById(R.id.delete_zone_view);
+		// if (mDeleteZone != null)
+		// mDeleteZone.setOnDragListener(mDragController);
 
 		// Give the user a little guidance.
 		Toast.makeText(getApplicationContext(), getResources().getString(R.string.instructions), Toast.LENGTH_LONG).show();
-		mTargetSun = (ImageCell) findViewById(R.id.target_sun);
+		mTargetSun = (ImageCell) findViewById(R.id.id_target_sun);
 		mTargetSun.mTargetId = 1;
-		//mTargetSun.mGrid = (GridView) mParentView;
+		// mTargetSun.mGrid = (GridView) mParentView;
 		mTargetSun.mEmpty = true;
-		mTargetSun.setOnDragListener (mDragController);
-		//mTargetSun.setBackgroundResource (R.color.cell_empty);
+		mTargetSun.setOnDragListener(mDragController);
+		// mTargetSun.setBackgroundResource (R.color.cell_empty);
 
-	    // Set up to relay events to the activity.
-	    // The activity decides which events trigger drag operations.
-	    // Activities like the Android Launcher require a long click to get a drag operation started.
-		mTargetSun.setOnTouchListener (this);
-		mTargetSun.setOnClickListener (this);
-		mTargetSun.setOnLongClickListener (this);
+		// Set up to relay events to the activity.
+		// The activity decides which events trigger drag operations.
+		// Activities like the Android Launcher require a long click to get a
+		// drag operation started.
+		mTargetSun.setOnTouchListener(this);
+		mTargetSun.setOnClickListener(this);
+		mTargetSun.setOnLongClickListener(this);
+
+		// Target Cloud initialization
+
+		mTargetCloud = (ImageCell) findViewById(R.id.id_target_cloud);
+		mTargetCloud.mTargetId = 2;
+		// mTargetSun.mGrid = (GridView) mParentView;
+		mTargetCloud.mEmpty = true;
+		mTargetCloud.setOnDragListener(mDragController);
+		// mTargetSun.setBackgroundResource (R.color.cell_empty);
+
+		// Set up to relay events to the activity.
+		// The activity decides which events trigger drag operations.
+		// Activities like the Android Launcher require a long click to get a
+		// drag operation started.
+		mTargetCloud.setOnTouchListener(this);
+		mTargetCloud.setOnClickListener(this);
+		mTargetCloud.setOnLongClickListener(this);
+
+		// Target Tree initialization
+
+		mTargetTree = (ImageCell) findViewById(R.id.id_target_tree);
+		mTargetTree.mTargetId = 3;
+		// mTargetSun.mGrid = (GridView) mParentView;
+		mTargetTree.mEmpty = true;
+		mTargetTree.setOnDragListener(mDragController);
+		// mTargetSun.setBackgroundResource (R.color.cell_empty);
+
+		// Set up to relay events to the activity.
+		// The activity decides which events trigger drag operations.
+		// Activities like the Android Launcher require a long click to get a
+		// drag operation started.
+		mTargetTree.setOnTouchListener(this);
+		mTargetTree.setOnClickListener(this);
+		mTargetTree.setOnLongClickListener(this);
+
+		// Target Golf Car initialization
+		mTargetGolf = (ImageCell) findViewById(R.id.id_target_golf);
+		mTargetGolf.mTargetId = 4;
+		// mTargetSun.mGrid = (GridView) mParentView;
+		mTargetGolf.mEmpty = true;
+		mTargetGolf.setOnDragListener(mDragController);
+		// mTargetSun.setBackgroundResource (R.color.cell_empty);
+
+		// Set up to relay events to the activity.
+		// The activity decides which events trigger drag operations.
+		// Activities like the Android Launcher require a long click to get a
+		// drag operation started.
+		mTargetGolf.setOnTouchListener(this);
+		mTargetGolf.setOnClickListener(this);
+		mTargetGolf.setOnLongClickListener(this);
+
+		// Target Solar initialization
+		mTargetSolar = (ImageCell) findViewById(R.id.id_target_solar);
+		mTargetSolar.mTargetId = 5;
+		// mTargetSun.mGrid = (GridView) mParentView;
+		mTargetSolar.mEmpty = true;
+		mTargetSolar.setOnDragListener(mDragController);
+		// mTargetSun.setBackgroundResource (R.color.cell_empty);
+
+		// Set up to relay events to the activity.
+		// The activity decides which events trigger drag operations.
+		// Activities like the Android Launcher require a long click to get a
+		// drag operation started.
+		mTargetSolar.setOnTouchListener(this);
+		mTargetSolar.setOnClickListener(this);
+		mTargetSolar.setOnLongClickListener(this);
+
 	}
 
 	/**
