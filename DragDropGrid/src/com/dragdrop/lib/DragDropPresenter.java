@@ -1,4 +1,4 @@
-package com.wglxy.example.dragdrop;
+package com.dragdrop.lib;
 
 /*
  * Copyright (C) 2013 Wglxy.com

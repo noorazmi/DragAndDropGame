@@ -1,4 +1,4 @@
-package com.wglxy.example.dragdrop;
+package com.dragdrop.lib;
 
 /*
  * Copyright (C) 2013 Wglxy.com
@@ -18,6 +18,8 @@ package com.wglxy.example.dragdrop;
  * (Note to other developers: The above note says you are free to do what you want with this code.
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
+
+import com.wglxy.example.dragdrop.R;
 
 import android.content.Context;
 import android.content.res.Resources;

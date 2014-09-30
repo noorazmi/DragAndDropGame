@@ -1,4 +1,4 @@
-package com.wglxy.example.dragdrop;
+package com.dragdrop.lib;
 
 /*
  * Copyright (C) 2013 Wglxy.com
@@ -19,13 +19,14 @@ package com.wglxy.example.dragdrop;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
+import com.wglxy.example.dragdrop.R;
+
 import android.app.Activity;
 //import android.content.ClipData;
 //import android.content.ClipDescription;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Vibrator;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -177,7 +178,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.demo);
+		setContentView(R.layout.demo_test);
 
 		// When a drag starts, we vibrate so the user gets some feedback.
 		mVibrator = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
@@ -188,21 +189,21 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 
 		// Set up the grid view with an ImageCellAdapter and have it use the
 		// DragController.
-		GridView gridView = (GridView) findViewById(R.id.image_grid_view);
-		if (gridView == null)
-			toast("Unable to find GridView");
-		else {
-			gridView.setAdapter(new ImageCellAdapter(this, mDragController));
-			// gridView.setOnItemClickListener (this);
-		}
+//		GridView gridView = (GridView) findViewById(R.id.image_grid_view);
+//		if (gridView == null)
+//			toast("Unable to find GridView");
+//		else {
+//			gridView.setAdapter(new ImageCellAdapter(this, mDragController));
+//			// gridView.setOnItemClickListener (this);
+//		}
 		// mGridView = gridView;
 
 		// Always add the delete_zone so there is a place to get rid of views.
 		// Find the delete_zone and add it as a drop target.
 		// That gives the user a place to drag views to get them off the screen.
-		mDeleteZone = (DeleteZone) findViewById(R.id.delete_zone_view);
-		if (mDeleteZone != null)
-			mDeleteZone.setOnDragListener(mDragController);
+//		mDeleteZone = (DeleteZone) findViewById(R.id.delete_zone_view);
+//		if (mDeleteZone != null)
+//			mDeleteZone.setOnDragListener(mDragController);
 
 		// Give the user a little guidance.
 		Toast.makeText(getApplicationContext(), getResources().getString(R.string.instructions), Toast.LENGTH_LONG).show();
