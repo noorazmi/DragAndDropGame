@@ -19,13 +19,13 @@ package com.dragdrop.lib;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
-import com.wglxy.example.dragdrop.R;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
 
 /**
  * This class is used with a GridView object. It provides a set of ImageCell objects 
@@ -105,7 +105,7 @@ public View getView (int position, View convertView, ViewGroup parent)
         v.setImageDrawable (null);     // Important. Otherwise, recycled views show old image.
     }
 
-    v.mCellNumber = position;
+    v.mTargetId = position;
     v.mGrid = (GridView) mParentView;
     v.mEmpty = true;
     v.setOnDragListener (mDragListener);

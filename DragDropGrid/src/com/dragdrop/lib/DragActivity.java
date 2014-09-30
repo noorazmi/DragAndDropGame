@@ -19,8 +19,6 @@ package com.dragdrop.lib;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
-import com.wglxy.example.dragdrop.R;
-
 import android.app.Activity;
 //import android.content.ClipData;
 //import android.content.ClipDescription;
@@ -32,11 +30,10 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ViewGroup.LayoutParams;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.Toast;
 
 /**
@@ -64,6 +61,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 	private static final int CHANGE_TOUCH_MODE_MENU_ID = Menu.FIRST + 3;
 
 	public static final String LOG_NAME = "DragActivity";
+	private ImageCell mTargetSun ;
 
 	/**
  */
@@ -117,7 +115,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 			newView.setImageResource(resourceId);
 			imageHolder.addView(newView, lp);
 			newView.mEmpty = false;
-			newView.mCellNumber = -1;
+			newView.mTargetId = -1;
 			mLastNewCell = newView;
 			mImageCount++;
 
@@ -136,13 +134,15 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 	 */
 
 	public void addNewImageToScreen() {
-		int resourceId = R.drawable.hello;
+		int resourceId = R.drawable.sun;
 
 		int m = mImageCount % 3;
 		if (m == 1)
-			resourceId = R.drawable.photo1;
+			resourceId = R.drawable.cloud;
 		else if (m == 2)
-			resourceId = R.drawable.photo2;
+			resourceId = R.drawable.tree;
+		else if (m == 3)
+			resourceId = R.drawable.golf;
 		addNewImageToScreen(resourceId);
 	}
 
@@ -186,6 +186,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 		// This activity will listen for drag-drop events.
 		// The listener used is a DragController. Set it up.
 		mDragController = new DragController(this);
+		
 
 		// Set up the grid view with an ImageCellAdapter and have it use the
 		// DragController.
@@ -207,6 +208,19 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 
 		// Give the user a little guidance.
 		Toast.makeText(getApplicationContext(), getResources().getString(R.string.instructions), Toast.LENGTH_LONG).show();
+		mTargetSun = (ImageCell) findViewById(R.id.target_sun);
+		mTargetSun.mTargetId = 1;
+		//mTargetSun.mGrid = (GridView) mParentView;
+		mTargetSun.mEmpty = true;
+		mTargetSun.setOnDragListener (mDragController);
+		//mTargetSun.setBackgroundResource (R.color.cell_empty);
+
+	    // Set up to relay events to the activity.
+	    // The activity decides which events trigger drag operations.
+	    // Activities like the Android Launcher require a long click to get a drag operation started.
+		mTargetSun.setOnTouchListener (this);
+		mTargetSun.setOnClickListener (this);
+		mTargetSun.setOnLongClickListener (this);
 	}
 
 	/**
@@ -232,7 +246,7 @@ public class DragActivity extends Activity implements View.OnLongClickListener, 
 
 	public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
 		ImageCell i = (ImageCell) v;
-		trace("onItemClick in view: " + i.mCellNumber);
+		trace("onItemClick in view: " + i.mTargetId);
 	}
 
 	/**

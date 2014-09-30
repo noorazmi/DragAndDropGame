@@ -19,8 +19,6 @@ package com.dragdrop.lib;
  *  Any problems are yours to fix. Wglxy.com is simply helping you get started. )
  */
 
-import com.wglxy.example.dragdrop.R;
-
 import android.content.ClipData;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -45,8 +43,9 @@ public class ImageCell extends ImageView
     implements DragSource, DropTarget
 {
     public boolean mEmpty = true;
-    public int mCellNumber = -1;
+    public int mTargetId = -1;
     public GridView mGrid;
+    private TargetType mTargetType;
 
 /**
  */
@@ -61,6 +60,15 @@ public ImageCell (Context context, AttributeSet attrs) {
 public ImageCell (Context context, AttributeSet attrs, int style) {
 	super (context, attrs, style);
 }
+
+
+public TargetType getTargetType() {
+	return mTargetType;
+}
+public void setTargetType(TargetType mTargetType) {
+	this.mTargetType = mTargetType;
+}
+
 
 /**
  */
@@ -107,7 +115,7 @@ public View dragDropView () {
 
 public void onDragStarted () {
     // Change the cell a bit so the user can tell which cell they started with.
-    if (mCellNumber >= 0) {
+    if (mTargetId >= 0) {
        setColorFilter (R.color.cell_nearly_empty);
        invalidate ();
        //setBackgroundResource (R.color.cell_empty);
@@ -124,7 +132,7 @@ public void onDragStarted () {
 
 public void onDropCompleted (DropTarget target, boolean success) {
     // Undo what we did in onDragStarted
-    if (mCellNumber >= 0) {
+    if (mTargetId >= 0) {
        clearColorFilter ();
        invalidate ();
     }
@@ -133,9 +141,9 @@ public void onDropCompleted (DropTarget target, boolean success) {
     // So clear the image cell.
 
     if (success) {
-       Log.d (DragActivity.LOG_NAME, "ImageCell.onDropCompleted - clearing source: " + mCellNumber);
+       Log.d (DragActivity.LOG_NAME, "ImageCell.onDropCompleted - clearing source: " + mTargetId);
        mEmpty = true;
-       if (mCellNumber >= 0) {
+       if (mTargetId >= 0) {
           int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
           setBackgroundResource (bg);
           setImageDrawable (null);
@@ -148,7 +156,7 @@ public void onDropCompleted (DropTarget target, boolean success) {
        }
     } else {
       // On the failure case, reset the background color in case it is still set to the hover color.
-      if (mCellNumber >=0) {
+      if (mTargetId >=0) {
          int bg2 = mEmpty ? R.color.cell_empty : R.color.cell_filled;
          setBackgroundResource (bg2);
       }
@@ -175,7 +183,7 @@ public boolean allowDrop (DragSource source) {
 
     // An ImageCell accepts a drop if it is empty and if it is part of a grid.
     // A free-standing ImageCell does not accept drops.
-    return mEmpty  && (mCellNumber >= 0);
+    return mEmpty  && (mTargetId >= 0);
 }
 
 /**
@@ -185,7 +193,7 @@ public boolean allowDrop (DragSource source) {
  */
 
 public void onDrop (DragSource source) {
-    Log.d (DragActivity.LOG_NAME, "ImageCell.onDrop: " + mCellNumber + " source: " + source);
+    Log.d (DragActivity.LOG_NAME, "ImageCell.onDrop: " + mTargetId + " source: " + source);
         
     // Mark the cell so it is no longer empty.
     mEmpty = false;
@@ -212,7 +220,7 @@ public void onDrop (DragSource source) {
 
 public void onDragEnter (DragSource source) {
     //Log.d (DragActivity.LOG_NAME, "ImageCell.onDragEnter: " + mCellNumber);
-    if (mCellNumber < 0) return;
+    if (mTargetId < 0) return;
     int bg = mEmpty ? R.color.cell_empty_hover : R.color.cell_filled_hover;
     setBackgroundResource (bg);
 }
@@ -222,7 +230,7 @@ public void onDragEnter (DragSource source) {
  */    
 
 public void onDragExit (DragSource source) {
-    if (mCellNumber < 0) return;
+    if (mTargetId < 0) return;
     int bg = mEmpty ? R.color.cell_empty : R.color.cell_filled;
     setBackgroundResource (bg);
 }
@@ -269,5 +277,8 @@ public boolean performLongClick ()
     if (!mEmpty) return super.performLongClick ();
     return false;
 }
+
+
+
 
 } // end ImageCell
